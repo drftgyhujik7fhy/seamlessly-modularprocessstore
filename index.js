@@ -1,13 +1,22 @@
-function canCross(stones) {
-  const map = new Map();
-  for (const stone of stones) map.set(stone, new Set());
-  map.get(0).add(0);
-  for (let i = 0; i < stones.length; i++) {
-    for (const step of map.get(stones[i])) {
-      for (let k = step - 1; k <= step + 1; k++) {
-        if (k > 0 && map.has(stones[i] + k)) map.get(stones[i] + k).add(k);
-      }
-    }
-  }
-  return map.get(stones[stones.length - 1]).size > 0;
+function minStack() {
+  this.stack = [];
+  this.minStack = [];
 }
+minStack.prototype.push = function (x) {
+  this.stack.push(x);
+  if (
+    this.minStack.length === 0 ||
+    x <= this.minStack[this.minStack.length - 1]
+  )
+    this.minStack.push(x);
+};
+minStack.prototype.pop = function () {
+  if (this.stack.pop() === this.minStack[this.minStack.length - 1])
+    this.minStack.pop();
+};
+minStack.prototype.top = function () {
+  return this.stack[this.stack.length - 1];
+};
+minStack.prototype.getMin = function () {
+  return this.minStack[this.minStack.length - 1];
+};
